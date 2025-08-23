@@ -1,29 +1,35 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { signupSchema, SignupFormData } from './validationSchemas';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signupSchema } from '../validations/validation';
+import type { SignupFormData } from '../validations/validation';
 
 const SignupForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<SignupFormData>({
     resolver: yupResolver(signupSchema),
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      password: "",
+    }
   });
 
   const onSubmit = (data: SignupFormData) => {
-    console.log(data); // data typed and validated by Yup
+    console.log(data);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register('name')} placeholder="Name" />
+      <input type="text" {...register("name")} placeholder="Name" />
       {errors.name && <p>{errors.name.message}</p>}
 
-      <input {...register('phone')} placeholder="Phone" />
+      <input type="tel" {...register("phone")} placeholder="Phone" />
       {errors.phone && <p>{errors.phone.message}</p>}
 
-      <input {...register('email')} placeholder="Email" />
+      <input type="email" {...register("email")} placeholder="Email" />
       {errors.email && <p>{errors.email.message}</p>}
 
-      <input type="password" {...register('password')} placeholder="Password" />
+      <input type="password" {...register("password")} placeholder="Password" />
       {errors.password && <p>{errors.password.message}</p>}
 
       <button type="submit">Sign Up</button>
