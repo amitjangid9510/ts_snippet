@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from '../validations/validation';
 import type { SignupFormData } from '../validations/validation';
+import { useAppDispatch, useAppSelector } from '../store/hook';
+import { signupUser } from '../store/feature/authSlice';
 
 const SignupForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<SignupFormData>({
@@ -14,8 +16,15 @@ const SignupForm = () => {
     }
   });
 
+  const dispatch = useAppDispatch();
+  const { loading, error, isAuthenticated, user } = useAppSelector(state => state.auth);
+
   const onSubmit = (data: SignupFormData) => {
-    console.log(data);
+    dispatch(signupUser({
+      email: data.email,
+      password: data.password,
+      name: data.name,
+    }));
   };
 
   return (
@@ -32,7 +41,12 @@ const SignupForm = () => {
       <input type="password" {...register("password")} placeholder="Password" />
       {errors.password && <p>{errors.password.message}</p>}
 
-      <button type="submit">Sign Up</button>
+      <button type="submit" disabled={loading}>
+        {loading ? "Signing up..." : "Sign Up"}
+      </button>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {isAuthenticated && user && <p>Welcome, {user.name}!</p>}
     </form>
   );
 };
