@@ -1,15 +1,13 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../utils/api';
 
-// Define the shape of user data your API returns (adjust according to actual response)
 interface User {
   id: string;
   email: string;
   name: string;
-  // add other user properties as needed
 }
 
-// Define the state type
 interface AuthState {
   user: User | null;
   loading: boolean;
@@ -17,26 +15,18 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
-// Define the type for signup form data input (adjust fields as needed)
 interface SignupData {
   email: string;
   password: string;
   name?: string;
 }
 
-// Async thunk with typed args and return type
-export const signupUser = createAsyncThunk<
-  User,        // Return type of thunk payload on success
-  SignupData,  // Argument to the thunk (input data)
-  { rejectValue: string }  // Type for rejectWithValue
->(
-  'userAuth/signupUser',
+export const signupUser = createAsyncThunk<User,SignupData,{ rejectValue: string }>('userAuth/signupUser',
   async (userData, thunkAPI) => {
     try {
       const res = await axios.post('/auth/signup', userData);
       return res.data as User;
     } catch (err: any) {
-      // Provide a typed rejection value string
       return thunkAPI.rejectWithValue(err.response?.data?.message || 'Signup failed');
     }
   }
