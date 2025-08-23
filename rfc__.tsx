@@ -51,14 +51,3 @@ const fetchUser = async (): Promise<User> => {
   return response.json();
 };
 
-// Sample usage in App component
-const App: React.FC = () => (
-  <Container>
-    <Greeting name="Alice" age={28} />
-    <Counter />
-    <NameInput />
-    <p>Check out the User interface and fetchUser() async function above for typing API data!</p>
-  </Container>
-);
-
-export default App;
