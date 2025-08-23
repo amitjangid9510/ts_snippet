@@ -1,9 +1,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import authReducer from '../features/auth/authSlice';
+import authReducer from './feature/authSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-// Persist config
 const persistConfig = {
   key: 'root',
   storage,
@@ -16,7 +15,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Create store
+
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
@@ -25,9 +24,8 @@ export const store = configureStore({
     }),
 });
 
-// Setup persistor
 export const persistor = persistStore(store);
 
-// TypeScript types for RootState and Dispatch
+// TypeScript 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
