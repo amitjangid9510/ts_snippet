@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --border: 220 14% 96%; /* example value */
+    --input: 220 14% 96%;
+    --ring: 215 20% 65%;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+  }
+}
