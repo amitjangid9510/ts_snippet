@@ -11,3 +11,4 @@ export default defineConfig({
     },
   },
 })
+ //npm install --save-dev @types/node
